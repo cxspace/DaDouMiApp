@@ -3,33 +3,24 @@
  */
 angular.module('starter.controllers', [])
 
-  .controller('RecommendCtrl', function($scope) {
 
+  .controller('RecommendCtrl', function($scope) {
 
   })
 
-
-
   .controller('RecommendDetailCtrl', function($scope) {
-
-
 
   })
 
   .controller('RoundTableCtrl', function($scope) {
 
-
-
   })
 
   .controller('RoundTableDetailCtrl', function($scope) {
 
-
-
   })
 
   .controller('RoundTableAddCtrl', function($scope) {
-
 
   })
 
@@ -41,20 +32,29 @@ angular.module('starter.controllers', [])
 
   })
 
-  .controller('LoginCtrl', function($rootScope,$scope,$state,$http,userFactory) {
+  .controller('LoginCtrl', function($rootScope,$scope,$state,$http,baseURL,userFactory) {
 
+    //登录状态提示
     $scope.loginStatus = "";
 
+    //登录数据
     $rootScope.loginData = {};
 
     console.log('Doing login',  $rootScope.loginData);
 
+    //登录操作
     $scope.doLogin =function () {
 
-      $http(
+    /**
+       登录逻辑
+       传入参数
+       手机号和密码
+    */
+
+    $http(
         {
           method:"POST",
-          url:"http://121.42.184.102/da_dou_mi_server/login",
+          url:baseURL+"login",
           data:$rootScope.loginData,
           headers :{
             'Content-Type' : 'application/json'
@@ -70,6 +70,7 @@ angular.module('starter.controllers', [])
             $scope.loginStatus = "账号或密码错误!!!"
           }
           else {
+           
             $rootScope.loginData = response.data;
             console.log($rootScope.loginData);
             $rootScope.status = "";
@@ -85,15 +86,12 @@ angular.module('starter.controllers', [])
 
       );
 
-      // $state.go('tab.account', {}, {reload: true});
-
     };
 
   })
 
 
-  .controller('RegisterCtrl', function($rootScope,$scope,$state,$http,userFactory) {
-
+  .controller('RegisterCtrl', function($rootScope,$scope,$state,$http,baseURL,userFactory) {
 
 
       $scope.registerData={};
@@ -119,7 +117,7 @@ angular.module('starter.controllers', [])
         $http(
           {
             method:"POST",
-            url:"http://121.42.184.102/da_dou_mi_server/is_duplicate",
+            url:baseURL+"is_duplicate",
             data:$scope.registerData,
             headers :{
               'Content-Type' : 'application/json'
@@ -156,7 +154,7 @@ angular.module('starter.controllers', [])
             $http(
               {
                 method:"POST",
-                url:"http://121.42.184.102/da_dou_mi_server/register",
+                url:baseURL+"register",
                 data:$scope.registerData,
                 headers :{
                   'Content-Type' : 'application/json'
@@ -185,7 +183,7 @@ angular.module('starter.controllers', [])
 
 
 
-  .controller('UpdateEmailCtrl', function($rootScope,$scope,$state,$http,userFactory) {
+  .controller('UpdateEmailCtrl', function($rootScope,$scope,$state,$http,baseURL,userFactory) {
 
     $scope.doUpdateEmail = function () {
 
@@ -193,7 +191,7 @@ angular.module('starter.controllers', [])
 
         {
           method:"POST",
-          url:"http://121.42.184.102/da_dou_mi_server/update_email",
+          url:baseURL+"update_email",
           data:$rootScope.loginData,
           headers :{
             'Content-Type' : 'application/json'
@@ -224,11 +222,35 @@ angular.module('starter.controllers', [])
 
 
 
-  .controller('UpdateWeChatCtrl', function($scope,$state,userFactory) {
+  .controller('UpdateNameCtrl', function($scope,$state,$http,$rootScope,baseURL,userFactory) {
 
-    $scope.doSubmit = function () {
+    $scope.doUpdateName = function () {
 
-      $state.go('tab.account', {}, {reload: true});
+    $http(
+
+        {
+          method:"POST",
+          url:baseURL+"update_name",
+          data:$rootScope.loginData,
+          headers :{
+            'Content-Type' : 'application/json'
+          }
+        }
+
+      ).then(
+
+      function success(response) {
+
+        console.log(response.data);
+
+        $state.go('tab.account', {}, {reload: true});
+
+      },
+
+      function error() {
+
+      }
+      );
 
     };
 
@@ -236,7 +258,7 @@ angular.module('starter.controllers', [])
   })
 
 
-  .controller('UpdatePasswordCtrl', function($rootScope,$scope,$state,$http,userFactory) {
+  .controller('UpdatePasswordCtrl', function($rootScope,$scope,$state,$http,baseURL,userFactory) {
 
     $scope.status = "";
 
@@ -256,7 +278,7 @@ angular.module('starter.controllers', [])
 
           {
             method:"POST",
-            url:"http://121.42.184.102/da_dou_mi_server/update_password",
+            url:baseURL+"update_password",
             data:$rootScope.loginData,
             headers :{
               'Content-Type' : 'application/json'
@@ -286,7 +308,7 @@ angular.module('starter.controllers', [])
   })
 
 
-  .controller('UpdatePictureCtrl', function($scope,$state,$ionicActionSheet,$http,$rootScope,$cordovaCamera,$cordovaFileTransfer) {
+  .controller('UpdatePictureCtrl', function($scope,$state,$ionicActionSheet,$http,$rootScope,$cordovaCamera,$cordovaFileTransfer,baseURL) {
 
     // 添加图片
     $scope.addPhoto = function () {
@@ -391,7 +413,7 @@ angular.module('starter.controllers', [])
 
             {
               method:"POST",
-              url:"http://121.42.184.102/da_dou_mi_server/update_imgsrc",
+              url:baseURL+"update_imgsrc",
               data:$rootScope.loginData,
               headers :{
                 'Content-Type' : 'application/json'
@@ -426,9 +448,16 @@ angular.module('starter.controllers', [])
     };
   })
 
-  .controller('AccountCtrl', function($rootScope,$scope) {
+  .controller('AccountCtrl', function($rootScope,$scope,$state,baseURL) {
 
     $rootScope.status = "";
+
+    $scope.doLoginOut = function(){
+       console.log("doLoginOut");
+       $rootScope.loginData={};
+       $state.go('tab.login', {}, {reload: false});
+
+    }
 
     $scope.settings = {
       enableFriends: true

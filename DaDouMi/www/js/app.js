@@ -30,6 +30,9 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
   });
 })
 
+.constant("baseURL","http://121.42.184.102/da_dou_mi_server/")
+
+
 .config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider,$httpProvider) {
 
 
@@ -179,14 +182,14 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
     })
 
   //修改微信号页面
-    .state('tab.update_wechat', {
-      url: '/update_wechat',
+    .state('tab.update_name', {
+      url: '/update_name',
       views: {
 
         //这里的'tab-account是父页面'
         'tab-account': {
-          templateUrl: 'templates/user-update-wechat.html',
-          controller: 'UpdateWeChatCtrl'
+          templateUrl: 'templates/user-update-name.html',
+          controller: 'UpdateNameCtrl'
         }
       }
     })

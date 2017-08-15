@@ -15,6 +15,19 @@
 
       <div class="list">
 
+
+        <a ng-show="loginData.id != null" class="item item-icon-left">
+          <i class="icon ion-android-phone-portrait"></i>
+          手机号:&nbsp;{{loginData.phone}}
+        </a>
+
+        <a ng-show="loginData.id != null" class="item item-icon-left item-icon-right" href="#/tab/update_name">
+          <i class="icon ion-ios-pricetag"></i>
+          用户名:&nbsp;{{loginData.name}}
+          <i class="icon ion-chevron-right icon-accessory"></i>
+
+        </a>
+
         <a ng-show="loginData.id != null" class="item item-icon-left item-icon-right" href="#/tab/update_mail">
           <i class="icon ion-email"></i>
           邮箱号:&nbsp;{{loginData.email}}
@@ -22,12 +35,6 @@
 
         </a>
 
-        <a ng-show="loginData.id != null" class="item item-icon-left">
-          <i class="icon ion-android-phone-portrait"></i>
-          手机号:&nbsp;{{loginData.phone}}
-<!--           <i class="icon ion-chevron-right icon-accessory"></i>
- -->
-        </a>
 
         <a ng-show="loginData.id != null" class="item item-icon-left item-icon-right" href="#/tab/update_password">
           <i class="icon ion-settings"></i>
@@ -47,7 +54,7 @@
           <i class="icon ion-chevron-right icon-accessory"></i>
         </a>
 
-        <a class="item item-icon-left item-icon-right" ng-show="loginData.id != null" href="#/tab/login">
+        <a class="item item-icon-left item-icon-right" ng-show="loginData.id != null" ng-click="doLoginOut()" >
           <i class="icon ion-log-out"></i>
           注销
           <i class="icon ion-chevron-right icon-accessory"></i>

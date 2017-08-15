@@ -1,6 +1,5 @@
 angular.module('starter.services', ['ngResource'])
 
-.constant("baseURL","http://127.0.0.1:8080/")
 
 .factory('userFactory',['$resource','$http', 'baseURL', function($resource, $http, baseURL) {
 
@@ -26,6 +25,7 @@ angular.module('starter.services', ['ngResource'])
 
     var status = true;
 
+     
 
 
     status = false
