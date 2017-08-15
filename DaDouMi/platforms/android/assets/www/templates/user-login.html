@@ -7,19 +7,20 @@
       <div class="list">
         <div class="list list-inset">
           <label class="item item-input">
-            <input type="text" ng-model="loginData.name" placeholder="用户名">
+            <input type="text" ng-model="loginData.phone" placeholder="手机号">
           </label>
           <label class="item item-input">
-            <input type="text" ng-model="loginData.password" placeholder="密码">
+            <input type="password" ng-model="loginData.password" placeholder="密码">
           </label>
+           {{loginStatus}}
         </div>
 
         <div class="padding">
+
           <button class="button button-block button-assertive" type="submit">登录</button>
         </div>
 
       </div>
-
       </form>
 
     </ion-list>

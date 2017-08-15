@@ -1,0 +1,26 @@
+<ion-view view-title="头像">
+  <ion-content>
+    <ion-list>
+
+
+        <div class="list">
+
+          <div class="padding">
+            <button class="button button-block button-assertive" ng-click="addPhoto()">添加</button>
+          </div>
+
+          <div class="padding" ng-show="imageSrc != undefined">
+            <button class="button button-block button-assertive" ng-click="uploadPhoto()">上传</button>
+          </div>
+
+          <div class="item" ng-show="imageSrc != undefined">
+            <img ng-src="{{imageSrc}}" class="full-image" style="width:150px;height:150px;"/>
+          </div>
+
+
+        </div>
+
+
+    </ion-list>
+  </ion-content>
+</ion-view>

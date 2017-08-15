@@ -1,0 +1,34 @@
+<ion-view view-title="注册">
+  <ion-content>
+    <ion-list>
+
+      <form ng-submit="doRegister()">
+
+      <div class="list">
+        <div class="list list-inset">
+          <label class="item item-input">
+            <input type="text" ng-model="registerData.phone" placeholder="手机号">
+          </label>
+          <label class="item item-input">
+            <input type="password" ng-model="registerData.password" placeholder="密码">
+          </label>
+          <label class="item item-input">
+            <input type="password" ng-model="registerData.passwordConfirm" placeholder="确认密码">
+          </label>
+
+          {{status}}
+
+
+        </div>
+
+        <div class="padding">
+          <button class="button button-block button-assertive" type="submit">注册</button>
+        </div>
+
+      </div>
+
+      </form>
+
+    </ion-list>
+  </ion-content>
+</ion-view>

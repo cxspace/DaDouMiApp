@@ -73,7 +73,29 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
     }
   })
 
-  //圆桌页面
+  //美食推荐详情
+    .state('tab.recommend_detail', {
+      url: '/recommend_detail',
+      views: {
+        'tab-recommend': {
+          templateUrl: 'templates/tab-recommend-detail.html',
+          controller: 'RecommendDetailCtrl'
+        }
+      }
+    })
+
+  //美食地图
+    .state('tab.recommend_map', {
+      url: '/recommend_map',
+      views: {
+        'tab-recommend': {
+          templateUrl: 'templates/tab-recommend-map.html',
+          controller: 'RecommendDetailCtrl'
+        }
+      }
+    })
+
+    //圆桌页面
   .state('tab.round_table', {
       url: '/round_table',
       views: {
@@ -83,18 +105,30 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
         }
       }
     })
-
-    .state('tab.chat-detail', {
-      url: '/chats/:chatId',
+  //圆桌里面的信息详细
+    .state('tab.round_table_detail', {
+      url: '/round_table_detail',
       views: {
-        'tab-chats': {
-          templateUrl: 'templates/chat-detail.html',
-          controller: 'ChatDetailCtrl'
+        'tab-round-table': {
+          templateUrl: 'templates/tab-round-table-detail.html',
+          controller: 'RoundTableDetailCtrl'
         }
       }
     })
 
-  //个人账户页面
+  //发布美食推荐
+    .state('tab.round_table_add', {
+      url: '/round_table_add',
+      views: {
+        'tab-round-table': {
+          templateUrl: 'templates/tab-round-table-add.html',
+          controller: 'RoundTableAddCtrl'
+        }
+      }
+    })
+
+
+    //个人账户页面
   .state('tab.account', {
     url: '/account',
     views: {
@@ -117,6 +151,100 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
         }
       }
     })
+
+  //注册页面
+    .state('tab.register', {
+      url: '/register',
+      views: {
+
+        //这里的'tab-account是父页面'
+        'tab-account': {
+          templateUrl: 'templates/user-register.html',
+          controller: 'RegisterCtrl'
+        }
+      }
+    })
+
+  //修改邮箱页面
+    .state('tab.update_mail', {
+      url: '/update_mail',
+      views: {
+
+        //这里的'tab-account是父页面'
+        'tab-account': {
+          templateUrl: 'templates/user-update-email.html',
+          controller: 'UpdateEmailCtrl'
+        }
+      }
+    })
+
+  //修改微信号页面
+    .state('tab.update_wechat', {
+      url: '/update_wechat',
+      views: {
+
+        //这里的'tab-account是父页面'
+        'tab-account': {
+          templateUrl: 'templates/user-update-wechat.html',
+          controller: 'UpdateWeChatCtrl'
+        }
+      }
+    })
+
+  //修改密码
+    .state('tab.update_password', {
+      url: '/update_password',
+      views: {
+
+        //这里的'tab-account是父页面'
+        'tab-account': {
+          templateUrl: 'templates/user-update-password.html',
+          controller: 'UpdatePasswordCtrl'
+        }
+      }
+    })
+
+  //更换头像
+    .state('tab.update_picture', {
+      url: '/update_picture',
+      views: {
+
+        //这里的'tab-account是父页面'
+        'tab-account': {
+          templateUrl: 'templates/user-update-picture.html',
+          controller: 'UpdatePictureCtrl'
+        }
+      }
+    })
+
+  //用户最爱
+
+    .state('tab.favourite', {
+      url: '/favourite',
+      views: {
+
+        //这里的'tab-account是父页面'
+        'tab-account': {
+          templateUrl: 'templates/user-favourite.html',
+          controller: 'FavouriteCtrl'
+        }
+      }
+    })
+
+  //系统消息
+    .state('tab.system_message', {
+      url: '/system_message',
+      views: {
+
+        //这里的'tab-account是父页面'
+        'tab-account': {
+          templateUrl: 'templates/system_message.html',
+          controller: 'SystemMessageCtrl'
+        }
+      }
+    })
+
+
 
 
 

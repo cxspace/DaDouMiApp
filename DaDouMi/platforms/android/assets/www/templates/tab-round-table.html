@@ -1,16 +1,40 @@
 <ion-view view-title="圆桌">
-  <ion-content>
-    <ion-list>
-      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="chat in chats" type="item-text-wrap" href="#/tab/chats/{{chat.id}}">
-        <img ng-src="{{chat.face}}">
-        <h2>{{chat.name}}</h2>
-        <p>{{chat.lastText}}</p>
-        <i class="icon ion-chevron-right icon-accessory"></i>
 
-        <ion-option-button class="button-assertive" ng-click="remove(chat)">
-          Delete
-        </ion-option-button>
-      </ion-item>
-    </ion-list>
+  <ion-nav-buttons side="secondary">
+    <div class="buttons">
+      <a class="button button-icon icon ion-android-add" href="#/tab/round_table_add"></a>
+    </div>
+  </ion-nav-buttons>
+
+
+  <ion-content class="padding">
+
+
+
+    <div class="list card">
+
+      <div class="item item-avatar">
+        <img ng-src="img/icon.png">
+        <h2>马卡龙：博君一笑</h2>
+        <p>14:50:47</p>
+      </div>
+
+      <div class="item item-body">
+        <a href="#/tab/round_table_detail">
+          <img class="full-image" ng-src="img/food_0002.jpg">
+        </a>
+
+        <p>
+          据说16世纪中叶，佛罗伦斯的贵族凯萨琳梅迪奇嫁给法国国王亨利2世时，患了思乡病，于是国王极为心疼，并为此费尽心思。
+        </p>
+        <p>
+          <a href="#" class="subdued">1 赞</a>
+          <a href="#" class="subdued">5 评论</a>
+        </p>
+      </div>
+
+    </div>
+
+
   </ion-content>
 </ion-view>
