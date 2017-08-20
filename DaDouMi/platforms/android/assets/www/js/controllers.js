@@ -9,8 +9,7 @@ angular.module('starter.controllers', [])
      获取所有的storys
 
 */
-
-  .controller('RecommendCtrl', function($scope,$http,baseURL) {
+  .controller('RecommendCtrl', function($scope,$http,$ionicPopup,baseURL) {
 
      $scope.baseURL = baseURL;
 
@@ -20,17 +19,15 @@ angular.module('starter.controllers', [])
      }).then(
 
           function success(response){
-                console.log(response.data);
 
                 $scope.storys = response.data;
-
           },
 
           function error(response){
 
           });
 
-      $scope.doRefresh = function() {
+    $scope.doRefresh = function() {
 
      $http({
           method:'GET',
@@ -38,7 +35,6 @@ angular.module('starter.controllers', [])
      }).then(
 
           function success(response){
-                console.log(response.data);
 
                 $scope.storys = response.data;
 
@@ -47,6 +43,19 @@ angular.module('starter.controllers', [])
           },
 
           function error(response){
+
+              var confirmPopup = $ionicPopup.confirm({
+                  title: '温馨提升',
+                  template: '网路错误，请连接网络 ^] [^'
+              });
+
+              confirmPopup.then(function (res) {
+                  if (res) {
+                      console.log('Ok to delete');
+                  } else {
+                      console.log('Canceled delete');
+                  }
+              });
 
           });
         
@@ -63,7 +72,7 @@ angular.module('starter.controllers', [])
 
 */
 
-  .controller('RecommendDetailCtrl', function($scope,$http,$stateParams,$sce,baseURL) {
+  .controller('RecommendDetailCtrl', function($scope,$http,$stateParams,$ionicPopup,$sce,baseURL) {
      
 
 
@@ -73,16 +82,26 @@ angular.module('starter.controllers', [])
      }).then(
 
           function success(response){
-                console.log(response.data);
 
                 $scope.story = response.data;
-
-                console.log(response.data.content);
-
                 $scope.story.content =  $sce.trustAsHtml($scope.story.content);
           },
 
           function error(response){
+
+              var confirmPopup = $ionicPopup.confirm({
+                  title: '温馨提升',
+                  template: '网路错误，请连接网络 ^] [^'
+              });
+
+              confirmPopup.then(function (res) {
+                  if (res) {
+                      console.log('Ok to delete');
+                  } else {
+                      console.log('Canceled delete');
+                  }
+              });
+
 
           });
 
@@ -91,9 +110,12 @@ angular.module('starter.controllers', [])
 
   })
 
-  .controller('RoundTableCtrl', function($scope,$http,baseURL) {
+  .controller('RoundTableCtrl', function($scope,$rootScope,$http,baseURL,$ionicLoading,$ionicPopup,$timeout) {
 
      $scope.baseURL = "http://121.42.184.102/DaDouMiImg/";
+     $ionicLoading.show({
+        template: '<ion-spinner></ion-spinner> Loading...'
+     });
 
      $http({
              method:'GET',
@@ -101,14 +123,33 @@ angular.module('starter.controllers', [])
            }).then(
 
           function success(response){
-                console.log(response.data);
 
                 $scope.shares = response.data;
+                $timeout(function () {
+                $ionicLoading.hide();
+                  }, 1000);
           },
 
           function error(response){
 
+            var confirmPopup = $ionicPopup.confirm({
+                  title: '温馨提升',
+                  template: '网路错误，请连接网络 ^] [^'
+              });
+
+              confirmPopup.then(function (res) {
+                  if (res) {
+                      console.log('Ok to delete');
+                  } else {
+                      console.log('Canceled delete');
+                  }
+              });
+
+                $timeout(function () {
+                $ionicLoading.hide();
+                  }, 1000);
           });
+
 
       $scope.doRefresh = function() {
 
@@ -118,25 +159,63 @@ angular.module('starter.controllers', [])
            }).then(
 
           function success(response){
-                console.log(response.data);
 
                 $scope.shares = response.data;
+            
                 $scope.$broadcast('scroll.refreshComplete');
-
           },
 
           function error(response){
 
+
+              var confirmPopup = $ionicPopup.confirm({
+                  title: '温馨提升',
+                  template: '网路错误，请连接网络 ^] [^'
+              });
+
+              confirmPopup.then(function (res) {
+                  if (res) {
+                      console.log('Ok to delete');
+                  } else {
+                      console.log('Canceled delete');
+                  }
+              });
+
+
+
+               $timeout(function () {
+                $ionicLoading.hide();
+                  }, 1000);
           });
 
+         };     
 
-         }
+      $rootScope.doRefresh = function() {
 
+       $http({
+                method:'GET',
+                url:baseURL+'round_table'
+           }).then(
+
+          function success(response){
+
+                $scope.shares = response.data;
+            
+                $scope.$broadcast('scroll.refreshComplete');
+          },
+
+          function error(response){
+               $timeout(function () {
+                $ionicLoading.hide();
+                  }, 1000);
+          });
+
+         };
 
 
   })
 
-  .controller('RoundTableDetailCtrl', function($scope,$http,$stateParams,$rootScope,baseURL) {
+  .controller('RoundTableDetailCtrl', function($scope,$http,$stateParams,$ionicPopup,$rootScope,baseURL) {
  
      $scope.baseURL = "http://121.42.184.102/DaDouMiImg/";
 
@@ -154,9 +233,6 @@ angular.module('starter.controllers', [])
 
                 console.log(response.data);
                 $scope.share = response.data;
-
-   
-
                 $scope.commentData.share_id = $scope.share.id;
 
                 $http(
@@ -183,6 +259,20 @@ angular.module('starter.controllers', [])
                       },
 
                       function error(response){
+
+                       var confirmPopup = $ionicPopup.confirm({
+                            title: '温馨提升',
+                            template: '网路错误，请连接网络 ^] [^'
+                        });
+
+                        confirmPopup.then(function (res) {
+                            if (res) {
+                                console.log('Ok to delete');
+                            } else {
+                                console.log('Canceled delete');
+                            }
+                        });
+
 
                       }
 
@@ -235,7 +325,6 @@ angular.module('starter.controllers', [])
            
                       function success(response){
 
-                        console.log(response.data);
                         
                         $scope.commentDatas = response.data;
 
@@ -249,7 +338,6 @@ angular.module('starter.controllers', [])
               
               $scope.commentData.content = "";
 
-              console.log(response.data);
      
             },
 
@@ -284,7 +372,6 @@ angular.module('starter.controllers', [])
            
                       function success(response){
 
-                        console.log(response.data);
                         $scope.share.support ++;
                       },
 
@@ -299,10 +386,13 @@ angular.module('starter.controllers', [])
 
   })
 
-  .controller('RoundTableAddCtrl', function($rootScope,$scope,$state,$http,baseURL,$ionicActionSheet,$cordovaCamera,$cordovaFileTransfer) {
+  .controller('RoundTableAddCtrl', function($rootScope,$scope,$state,$http,baseURL,$ionicActionSheet,$cordovaCamera,$ionicPopup,$cordovaFileTransfer) {
 
     $scope.shareData={};
     $scope.imageSrc="http://121.42.184.102/DaDouMiImg/icon.png"; 
+
+
+
 
           // 添加图片
     $scope.addSharePhoto = function () {
@@ -379,7 +469,7 @@ angular.module('starter.controllers', [])
 
     $scope.doShareAdd = function(){
 
-       console.log("add Share!"+$scope.shareData.content);
+     console.log("add Share!"+$scope.shareData.content);
 
       var requestParams = "?callback=JSON_CALLBACK";
 
@@ -391,59 +481,78 @@ angular.module('starter.controllers', [])
         mimeType: "image/jpeg"
       };
 
+      if ($scope.imageSrc != "http://121.42.184.102/DaDouMiImg/icon.png") 
+      {
+              $cordovaFileTransfer.upload(server, fileURL, options)
+                .then(function (result) {
+                  // Success!
+                  //alert("Code = " + result.responseCode + "Response = " + result.response+ "Sent = " + result.bytesSent);
 
-      $cordovaFileTransfer.upload(server, fileURL, options)
-        .then(function (result) {
-          // Success!
-          //alert("Code = " + result.responseCode + "Response = " + result.response+ "Sent = " + result.bytesSent);
+                  //转换为JSON对象
+                  var dataObj=eval("("+result.response+")");
 
-          //转换为JSON对象
-          var dataObj=eval("("+result.response+")");
+                  $scope.imgHttpUrl = dataObj.img;
 
-          $scope.imgHttpUrl = dataObj.img;
-
-          $scope.imageSrc = "file-"+dataObj.img+".jpg";
+                  $scope.imageSrc = "file-"+dataObj.img+".jpg";
 
 
-          $scope.shareData.user_id = $rootScope.loginData.id;
-          $scope.shareData.imgsrc = $scope.imageSrc;
+                  $scope.shareData.user_id = $rootScope.loginData.id;
+                  $scope.shareData.imgsrc = $scope.imageSrc;
 
-          $http(
+                  $http(
 
-            {
-              method:"POST",
-              url:baseURL+"share_insert",
-              data:$scope.shareData,
-              headers :{
-                'Content-Type' : 'application/json'
-              }
-            }
+                    {
+                      method:"POST",
+                      url:baseURL+"share_insert",
+                      data:$scope.shareData,
+                      headers :{
+                        'Content-Type' : 'application/json'
+                      }
+                    }
 
-          ).then(
+                  ).then(
 
-            function success(response) {
+                    function success(response) {
 
-              console.log(response.data);
-              $state.go('tab.round_table', {}, {reload: true});
-     
-            },
+                      $scope.imageSrc="http://121.42.184.102/DaDouMiImg/icon.png"; 
 
-            function error() {
+                      $state.go('tab.round_table', {}, {reload: true});
 
-            }
-          );
+                      $rootScope.doRefresh();
+             
+                    },
 
-        }, function (err) {
-          // Error
-          alert("未知错误！");
+                    function error() {
 
-        }, function (progress) {
-          // constant progress updates
+                    }
+                  );
+
+                }, function (err) {
+    
+
+                }, function (progress) {
+                  // constant progress updates
+                });
+      }else{
+
+        var confirmPopup = $ionicPopup.confirm({
+            title: '温馨提升',
+            template: '请选择一张上传的图片 ^ ^ '
         });
 
-      
-    }
+        confirmPopup.then(function (res) {
+            if (res) {
+                console.log('Ok to delete');
+            } else {
+                console.log('Canceled delete');
+            }
+        });
 
+      }
+
+
+
+    }
 
   })
 
@@ -455,13 +564,13 @@ angular.module('starter.controllers', [])
 
   })
 
-  .controller('LoginCtrl', function($rootScope,$scope,$state,$http,baseURL,userFactory) {
+  .controller('LoginCtrl', function($rootScope,$scope,$state,$http,$ionicPopup,$localStorage,baseURL) {
 
     //登录状态提示
     $rootScope.loginStatus = "";
 
     //登录数据
-    $rootScope.loginData = {};
+    $rootScope.loginData = $localStorage.getObject('userinfo','{}');
 
     console.log('Doing login',  $rootScope.loginData);
 
@@ -490,13 +599,29 @@ angular.module('starter.controllers', [])
           if (response.data.phone == "error")
           {
             $state.go('tab.login', {}, {reload: true});
-            $rootScope.loginStatus = "账号或密码错误!!!"
+
+            var confirmPopup = $ionicPopup.confirm({
+            title: '温馨提升',
+            template: '账号或密码错误！ -} {- '
+             });
+
+            confirmPopup.then(function (res) {
+                if (res) {
+                    console.log('Ok to delete');
+                } else {
+                    console.log('Canceled delete');
+                }
+            });
+
           }
           else {
            
             $rootScope.loginData = response.data;
-            console.log($rootScope.loginData);
+            // console.log($rootScope.loginData);
             $rootScope.status = "";
+
+            $localStorage.storeObject('userinfo',$rootScope.loginData);
+
 
             $state.go('tab.account', {}, {reload: true});
 
@@ -514,7 +639,7 @@ angular.module('starter.controllers', [])
   })
 
 
-  .controller('RegisterCtrl', function($rootScope,$scope,$state,$http,baseURL,userFactory) {
+  .controller('RegisterCtrl', function($rootScope,$scope,$state,$http,$ionicPopup,baseURL,userFactory) {
 
 
       $scope.registerData={};
@@ -551,7 +676,19 @@ angular.module('starter.controllers', [])
           console.log(response.data);
           if (response.data.phone == "error"){
 
-            $scope.status = "改手机账号已经注册！";
+            var confirmPopup = $ionicPopup.confirm({
+            title: '温馨提升',
+            template: '改手机账号已经注册！ -} {- '
+             });
+
+            confirmPopup.then(function (res) {
+                if (res) {
+                    console.log('Ok to delete');
+                } else {
+                    console.log('Canceled delete');
+                }
+            });
+
             $scope.goNext = false;
 
           }else{
@@ -563,17 +700,29 @@ angular.module('starter.controllers', [])
 
           //密码不一致
           if ($scope.registerData.password != $scope.registerData.passwordConfirm){
-            $scope.status = "两次密码不一致!!!";
+
+            var confirmPopup = $ionicPopup.confirm({
+            title: '温馨提升',
+            template: '两次密码不一致！ -} {- '
+             });
+
+            confirmPopup.then(function (res) {
+                if (res) {
+                    console.log('Ok to delete');
+                } else {
+                    console.log('Canceled delete');
+                }
+            });
+
+
             $scope.goNext = false;
           }
 
-          console.log("wait..."+$scope.goNext);
-          console.log("out");
+
 
           if ($scope.goNext)
           {
 
-            console.log("in");
             $http(
               {
                 method:"POST",
@@ -586,8 +735,19 @@ angular.module('starter.controllers', [])
             ).then(function success(response) {
 
                $state.go('tab.account', {}, {reload: true});
-               $rootScope.status = "注册成功，请登陆";
 
+                var confirmPopup = $ionicPopup.confirm({
+                title: '温馨提升',
+                template: '注册成功，请登陆！ ^ ^ '
+                 });
+
+                confirmPopup.then(function (res) {
+                    if (res) {
+                        console.log('Ok to delete');
+                    } else {
+                        console.log('Canceled delete');
+                    }
+                });
 
             },function error() {
 
@@ -681,7 +841,7 @@ angular.module('starter.controllers', [])
   })
 
 
-  .controller('UpdatePasswordCtrl', function($rootScope,$scope,$state,$http,baseURL,userFactory) {
+  .controller('UpdatePasswordCtrl', function($rootScope,$scope,$state,$http,$ionicPopup,baseURL,userFactory) {
 
     $scope.status = "";
 
@@ -691,7 +851,18 @@ angular.module('starter.controllers', [])
       if ($rootScope.loginData.newPassword != $rootScope.loginData.passwordConfirm)
       {
         //两次输入密码不一致
-        $scope.status = "两次输入密码不一致";
+          var confirmPopup = $ionicPopup.confirm({
+              title: '温馨提升',
+              template: '两次密码不一致！ -} {- '
+               });
+
+              confirmPopup.then(function (res) {
+                  if (res) {
+                      console.log('Ok to delete');
+                  } else {
+                      console.log('Canceled delete');
+                  }
+              });
 
       }else {
 
@@ -719,6 +890,8 @@ angular.module('starter.controllers', [])
           },
 
           function error() {
+
+
 
           }
         );
