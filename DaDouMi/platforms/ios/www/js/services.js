@@ -5,36 +5,10 @@ angular.module('starter.services', ['ngResource'])
 
   var userFac = {};
 
-  userFac.login = function() {
+  return userFac;
 
-    $http.get(baseURL+"user",
-      {
-        headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}}
-      ).then(
-        function success(response)
-        {
-          console.log(response);
-
-          console.log("ok");
-        }
-      );
-
-  };
-
-  userFac.register = function (registerData) {
-
-    var status = true;
-
-     
+}])
 
 
-    status = false
-
-    return status;
-
-  };
-
-   return userFac;
-
-}]);
+;
 

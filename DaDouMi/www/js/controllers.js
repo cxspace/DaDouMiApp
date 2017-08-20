@@ -4,23 +4,437 @@
 angular.module('starter.controllers', [])
 
 
-  .controller('RecommendCtrl', function($scope) {
+/**
+  
+     获取所有的storys
+
+*/
+
+  .controller('RecommendCtrl', function($scope,$http,baseURL) {
+
+     $scope.baseURL = baseURL;
+
+     $http({
+          method:'GET',
+          url:baseURL+'storys'
+     }).then(
+
+          function success(response){
+
+                $scope.storys = response.data;
+
+          },
+
+          function error(response){
+
+          });
+
+      $scope.doRefresh = function() {
+
+     $http({
+          method:'GET',
+          url:baseURL+'storys'
+     }).then(
+
+          function success(response){
+
+                $scope.storys = response.data;
+
+                $scope.$broadcast('scroll.refreshComplete');
+
+          },
+
+          function error(response){
+
+          });
+        
+
+        }
+
+      
+  })
+
+
+/**
+  
+     根据id获取制定的story
+
+*/
+
+  .controller('RecommendDetailCtrl', function($scope,$http,$stateParams,$sce,baseURL) {
+     
+
+
+     $http({
+          method:'GET',
+          url:baseURL+'storys/'+$stateParams.id
+     }).then(
+
+          function success(response){
+
+                $scope.story = response.data;
+
+
+                $scope.story.content =  $sce.trustAsHtml($scope.story.content);
+          },
+
+          function error(response){
+
+          });
+
+
+
 
   })
 
-  .controller('RecommendDetailCtrl', function($scope) {
+  .controller('RoundTableCtrl', function($scope,$http,baseURL) {
+
+     $scope.baseURL = "http://121.42.184.102/DaDouMiImg/";
+
+     $http({
+             method:'GET',
+                url:baseURL+'round_table'
+           }).then(
+
+          function success(response){
+
+                $scope.shares = response.data;
+          },
+
+          function error(response){
+
+          });
+
+      $scope.doRefresh = function() {
+
+       $http({
+                method:'GET',
+                url:baseURL+'round_table'
+           }).then(
+
+          function success(response){
+
+                $scope.shares = response.data;
+                $scope.$broadcast('scroll.refreshComplete');
+
+          },
+
+          function error(response){
+
+          });
+
+
+         }
+
+
 
   })
 
-  .controller('RoundTableCtrl', function($scope) {
+  .controller('RoundTableDetailCtrl', function($scope,$http,$stateParams,$rootScope,baseURL) {
+ 
+     $scope.baseURL = "http://121.42.184.102/DaDouMiImg/";
+
+     $scope.commentData = {};
+     $scope.share = {};
+     $scope.commentDatas = {};
+
+
+     $http({
+          method:'GET',
+          url:baseURL+'shares/'+$stateParams.id
+     }).then(
+
+          function success(response){
+
+                console.log(response.data);
+                $scope.share = response.data;
+
+   
+
+                $scope.commentData.share_id = $scope.share.id;
+
+                $http(
+
+
+                  {
+                      method:"POST",
+                      url:baseURL+"comment_select",
+                      data:$scope.commentData,
+                        headers :{
+                        'Content-Type' : 'application/json'
+                      }
+
+                  }
+
+                ).then(
+           
+                      function success(response){
+
+                        console.log(response.data);
+                        
+                        $scope.commentDatas = response.data;
+
+                      },
+
+                      function error(response){
+
+                      }
+
+                );
+              
+
+          
+          },
+
+          function error(response){
+
+          });
+
+
+     $scope.doAddComment = function(){
+          
+          $scope.commentData.share_id = $scope.share.id;
+          $scope.commentData.user_id = $rootScope.loginData.id;
+          console.log($scope.commentData.content);
+
+          $http(
+
+            {
+              method:"POST",
+              url:baseURL+"comment_insert",
+              data:$scope.commentData,
+              headers :{
+                'Content-Type' : 'application/json'
+              }
+            }
+
+          ).then(
+
+            function success(response) {
+
+              
+              $http(
+
+                  {
+                      method:"POST",
+                      url:baseURL+"comment_select",
+                      data:$scope.commentData,
+                        headers :{
+                        'Content-Type' : 'application/json'
+                      }
+
+                  }
+
+                ).then(
+           
+                      function success(response){
+
+                        
+                        $scope.commentDatas = response.data;
+
+                      },
+
+                      function error(response){
+
+                      }
+
+                );
+              
+              $scope.commentData.content = "";
+
+     
+            },
+
+            function error() {
+
+            }
+          );
+
+
+
+     }
+
+
+     $scope.inc_support = function(){
+
+        console.log("inc_support()");
+
+        $http(
+
+
+                  {
+                      method:"POST",
+                      url:baseURL+"inc_support",
+                      data:$scope.share,
+                        headers :{
+                        'Content-Type' : 'application/json'
+                      }
+
+                  }
+
+                ).then(
+           
+                      function success(response){
+
+                        $scope.share.support ++;
+                      },
+
+                      function error(response){
+
+                      }
+
+                );
+
+     }
+
 
   })
 
-  .controller('RoundTableDetailCtrl', function($scope) {
+  .controller('RoundTableAddCtrl', function($rootScope,$scope,$state,$http,baseURL,$ionicActionSheet,$cordovaCamera,$cordovaFileTransfer) {
 
-  })
+    $scope.shareData={};
+    $scope.imageSrc="http://121.42.184.102/DaDouMiImg/icon.png"; 
 
-  .controller('RoundTableAddCtrl', function($scope) {
+          // 添加图片
+    $scope.addSharePhoto = function () {
+      $ionicActionSheet.show({
+        cancelOnStateChange: true,
+        cssClass: 'action_s',
+        titleText: "请选择获取图片方式",
+        buttons: [
+          {text: '相机'},
+          {text: '图库'}
+        ],
+        cancelText: '取消',
+        cancel: function () {
+          return true;
+        },
+        buttonClicked: function (index) {
+
+          switch (index) {
+            case 0:
+              $scope.takePhoto();
+              break;
+            case 1:
+              $scope.pickImage();
+              break;
+            default:
+              break;
+          }
+          return true;
+        }
+      });
+    };
+
+//拍照
+    $scope.takePhoto = function () {
+      var options = {
+        quality: 100,
+        destinationType: Camera.DestinationType.FILE_URI,//Choose the format of the return value.
+        sourceType: Camera.PictureSourceType.CAMERA,//资源类型：CAMERA打开系统照相机；PHOTOLIBRARY打开系统图库
+        targetWidth: 370,//头像宽度
+        targetHeight: 660//头像高度
+
+      };
+
+      $cordovaCamera.getPicture(options)
+        .then(function (imageURI) {
+          //Success
+          $scope.imageSrc = imageURI;
+          // $scope.uploadPhoto();
+        }, function (err) {
+          // Error
+        });
+    };
+//选择照片
+    $scope.pickImage = function () {
+      var options = {
+        quality: 100,
+        destinationType: Camera.DestinationType.FILE_URI,//Choose the format of the return value.
+        sourceType: Camera.PictureSourceType.SAVEDPHOTOALBUM,//资源类型：CAMERA打开系统照相机；PHOTOLIBRARY打开系统图库
+        targetWidth: 370,//头像宽度
+        targetHeight: 660//头像高度
+      };
+
+      $cordovaCamera.getPicture(options)
+        .then(function (imageURI) {
+          //Success
+          $scope.imageSrc = imageURI;
+
+          // $scope.uploadPhoto();
+        }, function (err) {
+          // Error
+        });
+    };
+
+
+    $scope.doShareAdd = function(){
+
+       console.log("add Share!"+$scope.shareData.content);
+
+      var requestParams = "?callback=JSON_CALLBACK";
+
+      var server = encodeURI('http://121.42.184.102:3000/upload' + requestParams);
+      var fileURL = $scope.imageSrc;
+      var options = {
+        fileKey: "file",//相当于form表单项的name属性
+        fileName: fileURL.substr(fileURL.lastIndexOf('/') + 1),
+        mimeType: "image/jpeg"
+      };
+
+
+      $cordovaFileTransfer.upload(server, fileURL, options)
+        .then(function (result) {
+          // Success!
+          //alert("Code = " + result.responseCode + "Response = " + result.response+ "Sent = " + result.bytesSent);
+
+          //转换为JSON对象
+          var dataObj=eval("("+result.response+")");
+
+          $scope.imgHttpUrl = dataObj.img;
+
+          $scope.imageSrc = "file-"+dataObj.img+".jpg";
+
+
+          $scope.shareData.user_id = $rootScope.loginData.id;
+          $scope.shareData.imgsrc = $scope.imageSrc;
+
+          $http(
+
+            {
+              method:"POST",
+              url:baseURL+"share_insert",
+              data:$scope.shareData,
+              headers :{
+                'Content-Type' : 'application/json'
+              }
+            }
+
+          ).then(
+
+            function success(response) {
+
+              console.log(response.data);
+              $state.go('tab.round_table', {}, {reload: true});
+     
+            },
+
+            function error() {
+
+            }
+          );
+
+        }, function (err) {
+          // Error
+          alert("未知错误！");
+
+        }, function (progress) {
+          // constant progress updates
+        });
+
+      
+    }
+
 
   })
 
@@ -35,7 +449,7 @@ angular.module('starter.controllers', [])
   .controller('LoginCtrl', function($rootScope,$scope,$state,$http,baseURL,userFactory) {
 
     //登录状态提示
-    $scope.loginStatus = "";
+    $rootScope.loginStatus = "";
 
     //登录数据
     $rootScope.loginData = {};
@@ -67,7 +481,7 @@ angular.module('starter.controllers', [])
           if (response.data.phone == "error")
           {
             $state.go('tab.login', {}, {reload: true});
-            $scope.loginStatus = "账号或密码错误!!!"
+            $rootScope.loginStatus = "账号或密码错误!!!"
           }
           else {
            
@@ -435,7 +849,6 @@ angular.module('starter.controllers', [])
             }
           );
 
-
         }, function (err) {
           // Error
           alert("未知错误！");
@@ -452,9 +865,12 @@ angular.module('starter.controllers', [])
 
     $rootScope.status = "";
 
+
     $scope.doLoginOut = function(){
        console.log("doLoginOut");
        $rootScope.loginData={};
+       $rootScope.loginStatus = "";
+
        $state.go('tab.login', {}, {reload: false});
 
     }

@@ -1,21 +1,10 @@
-<ion-view view-title="爱的备餐">
+<ion-view view-title="故事详细">
   <ion-content class="padding">
 
-
-
-
-
-    提拉米苏(Tiramisu)是一种带咖啡酒味儿的意大利甜点，由马斯卡邦尼奶酪、意式咖啡、手指饼干与咖啡酒/朗姆酒制成的。在意文里提拉米苏的意思是“带我走，尤其可知，关于提拉米苏的故事，一定有关爱情。
-
-    <div class="item item-image">
-      <img ng-src="img/food_0001.jpg">
-    </div>
-
-    二战期间，一个意大利士兵要出征了，可是家里已经什么也没有了，爱他的妻子为了给他准备干粮，把家里所有能吃的饼干、面包全做进了一个糕点里，那个糕点就是提拉米苏。“提拉米苏”在意大利文中的含义就是“带我走”，每当这个士兵在战场上吃到提拉米苏时就会想起他的家，想起家中心爱的人……
-
-
-
-
+		<h3>
+		  {{story.title}}
+		</h3>
+        <div ng-bind-html="story.content"></div>
 
   </ion-content>
 </ion-view>

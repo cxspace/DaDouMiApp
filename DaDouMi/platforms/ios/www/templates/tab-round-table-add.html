@@ -6,14 +6,18 @@
     <div class="list">
 
       <div class="padding">
-        <button class="button button-block button-assertive">添加图片</button>
 
+        <button class="button button-block button-assertive" ng-click="addSharePhoto()">添加图片</button>
+
+          <div class="item" ng-show="imageSrc != undefined">
+            <img ng-src="{{imageSrc}}" class="full-image" style="width:150px;height:150px;"/>
+          </div>
 
       <label class="item item-input">
-        <textarea placeholder="说点什么吧..." rows="3"></textarea>
+        <textarea placeholder="说点什么吧..." ng-model="shareData.content" rows="6"></textarea>
       </label>
 
-      <button class="button button-block button-assertive" type="submit">提交</button>
+      <button class="button button-block button-assertive" ng-click="doShareAdd()">提交</button>
 
       </div>
 

@@ -2,7 +2,7 @@
 
   <ion-nav-buttons side="secondary">
     <div class="buttons">
-      <a class="button button-icon ion-thumbsup" href="#/tab/round_table"></a>
+      <a class="button button-icon ion-thumbsup" ng-click="inc_support()"></a>
     </div>
   </ion-nav-buttons>
 
@@ -11,27 +11,36 @@
 
     <div class="item item-body">
       <a>
-        <img class="full-image" ng-src="img/food_0002.jpg">
+        <img class="full-image" src="http://121.42.184.102/DaDouMiImg/{{share.imgsrc}}">
       </a>
 
       <p>
-        据说16世纪中叶，佛罗伦斯的贵族凯萨琳梅迪奇嫁给法国国王亨利2世时，患了思乡病，于是国王极为心疼，并为此费尽心思。
-      </p>
-      <p>
-        <a href="#" class="subdued">1 赞</a>
-        <a href="#" class="subdued">5 评论</a>
+        <a class="subdued">{{share.support}} 赞</a>
       </p>
 
-      <div class="list">
+      <div class="list list-inset" ng-repeat="comment in commentDatas">
+
+            <div class="item">
+                {{comment.user_name}}    &nbsp;&nbsp;&nbsp;|&nbsp; {{comment.comment_create_time}}
+
+                <hr/>
+
+                {{comment.comment_content}}
+
+            </div>
+
+      </div>
+
+      <form ng-submit="doAddComment()">
+      <div class="list" ng-show="loginData.id != null">
         <label class="item item-input">
-          <textarea placeholder="说点什么吧..." rows="3"></textarea>
+          <textarea placeholder="说点什么吧..." ng-model="commentData.content" rows="3"></textarea>
         </label>
 
           <button class="button button-block button-assertive" type="submit">提交</button>
 
-
       </div>
-
+      </form>
 
 
     </div>

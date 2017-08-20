@@ -2,34 +2,35 @@
 
   <ion-nav-buttons side="secondary">
     <div class="buttons">
-      <a class="button button-icon icon ion-android-add" href="#/tab/round_table_add"></a>
+      <a class="button button-icon icon ion-android-add" href="#/tab/round_table_add" ng-show="loginData.id != null"></a>
     </div>
   </ion-nav-buttons>
 
 
   <ion-content class="padding">
 
+    <ion-refresher pulling-text="下拉刷新" on-refresh="doRefresh()"></ion-refresher>
 
 
-    <div class="list card">
+    <div class="list card" ng-repeat="share in shares">
 
       <div class="item item-avatar">
-        <img ng-src="img/icon.png">
-        <h2>马卡龙：博君一笑</h2>
-        <p>14:50:47</p>
+        <img src="http://121.42.184.102/DaDouMiImg/{{share.user_imgsrc}}">
+        <h2>{{share.user_name}}</h2>
+        <p>{{share.share_time}}</p>
       </div>
 
       <div class="item item-body">
-        <a href="#/tab/round_table_detail">
-          <img class="full-image" ng-src="img/food_0002.jpg">
+        <a href="#/tab/round_table_detail/{{share.share_id}}">
+          <img class="full-image" src="http://121.42.184.102/DaDouMiImg/{{share.share_imgsrc}}">
         </a>
 
         <p>
-          据说16世纪中叶，佛罗伦斯的贵族凯萨琳梅迪奇嫁给法国国王亨利2世时，患了思乡病，于是国王极为心疼，并为此费尽心思。
+          {{share.share_content}}
         </p>
         <p>
-          <a href="#" class="subdued">1 赞</a>
-          <a href="#" class="subdued">5 评论</a>
+          <a class="subdued">{{share.share_suport}} 赞</a>
+          <a class="subdued">{{share.share_comment_count}} 评论</a>
         </p>
       </div>
 

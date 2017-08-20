@@ -30,8 +30,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
   });
 })
 
-.constant("baseURL","http://121.42.184.102/da_dou_mi_server/")
-
+.constant("baseURL","http://121.42.184.102/DaDouMiServer/")
 
 .config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider,$httpProvider) {
 
@@ -63,8 +62,6 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
     templateUrl: 'templates/tabs.html'
   })
 
-
-
   //美食推荐页面
   .state('tab.recommend', {
     url: '/recommend',
@@ -77,8 +74,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
   })
 
   //美食推荐详情
-    .state('tab.recommend_detail', {
-      url: '/recommend_detail',
+  .state('tab.recommend_detail', {
+      url: '/recommend_detail/:id',
       views: {
         'tab-recommend': {
           templateUrl: 'templates/tab-recommend-detail.html',
@@ -88,7 +85,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
     })
 
   //美食地图
-    .state('tab.recommend_map', {
+  .state('tab.recommend_map', {
       url: '/recommend_map',
       views: {
         'tab-recommend': {
@@ -109,8 +106,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
       }
     })
   //圆桌里面的信息详细
-    .state('tab.round_table_detail', {
-      url: '/round_table_detail',
+  .state('tab.round_table_detail', {
+      url: '/round_table_detail/:id',
       views: {
         'tab-round-table': {
           templateUrl: 'templates/tab-round-table-detail.html',
@@ -143,7 +140,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
   })
 
   //登录页面
-    .state('tab.login', {
+  .state('tab.login', {
       url: '/login',
       views: {
 
@@ -156,7 +153,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
     })
 
   //注册页面
-    .state('tab.register', {
+  .state('tab.register', {
       url: '/register',
       views: {
 
@@ -169,7 +166,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
     })
 
   //修改邮箱页面
-    .state('tab.update_mail', {
+  .state('tab.update_mail', {
       url: '/update_mail',
       views: {
 
@@ -182,7 +179,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
     })
 
   //修改微信号页面
-    .state('tab.update_name', {
+  .state('tab.update_name', {
       url: '/update_name',
       views: {
 
@@ -208,7 +205,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
     })
 
   //更换头像
-    .state('tab.update_picture', {
+  .state('tab.update_picture', {
       url: '/update_picture',
       views: {
 
@@ -235,7 +232,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
     })
 
   //系统消息
-    .state('tab.system_message', {
+  .state('tab.system_message', {
       url: '/system_message',
       views: {
 
@@ -246,9 +243,6 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
         }
       }
     })
-
-
-
 
 
 
