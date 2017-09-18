@@ -11,11 +11,11 @@
 
     <div class="item item-body">
       <a>
-        <img class="full-image" src="http://121.42.184.102/DaDouMiImg/{{share.imgsrc}}">
+        <img class="full-image" src="{{UploadImgURL+share.imgsrc}}">
       </a>
 
       <p>
-       {{share.content}}
+        {{share.content}}
       </p>
 
       <p>
@@ -25,10 +25,12 @@
       <div class="list list-inset" ng-repeat="comment in commentDatas">
 
             <div class="item">
-                {{comment.user_name}}    &nbsp;&nbsp;&nbsp;|&nbsp; {{comment.comment_create_time}}
+              <img style="width: 50px;height: 50px" src="{{UploadImgURL+comment.user_imgsrc}}">
 
+                <p>
+                  {{comment.comment_create_time}} | &nbsp; {{comment.user_name}}
+                </p>
                 <hr/>
-
                 {{comment.comment_content}}
 
             </div>

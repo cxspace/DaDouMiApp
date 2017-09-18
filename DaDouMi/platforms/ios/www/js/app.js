@@ -51,10 +51,22 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
   });
 })
 
-.constant("baseURL","http://121.42.184.102/DaDouMiServer/")
+/**
+ *
+ * *************************************************
+ *
+ *   服务器配置
+ *
+ *
+ */
+
+.constant("baseURL","http://121.42.184.102:8080/DaDouMiServer/")
+
+.constant("UploadImgURL","http://121.42.184.102:8080/DaDouMiImg/")
+
+.constant("UploadServerURL","http://121.42.184.102:3000/upload")
 
 .config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider,$httpProvider) {
-
 
   $httpProvider.defaults.headers.common = {};
   $httpProvider.defaults.headers.post = {'Content-Type':'application/json'};
@@ -126,6 +138,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
         }
       }
     })
+    
   //圆桌里面的信息详细
   .state('tab.round_table_detail', {
       url: '/round_table_detail/:id',
@@ -148,8 +161,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
       }
     })
 
-
-    //个人账户页面
+  //个人账户页面
   .state('tab.account', {
     url: '/account',
     views: {
@@ -213,7 +225,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
     })
 
   //修改密码
-    .state('tab.update_password', {
+  .state('tab.update_password', {
       url: '/update_password',
       views: {
 
@@ -263,11 +275,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
           controller: 'SystemMessageCtrl'
         }
       }
-    })
+    });
 
-
-
-  ;
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/tab/recommend');

@@ -4,8 +4,8 @@
 
       <ion-item class="item-remove-animate item-avatar "  type="item-text-wrap">
 
-        <img ng-show="loginData.imgsrc != null" src="http://121.42.184.102/DaDouMiImg/{{loginData.imgsrc}}">
-     
+        <img ng-show="loginData.imgsrc != null" src="{{UploadImgURL+loginData.imgsrc}}">
+
         <h2 ng-show="loginData.id != null">用户ID:{{loginData.id}}</h2>
 
         <p ng-show="loginData.id == null">未登录</p>
@@ -66,47 +66,11 @@
           <i class="icon ion-chevron-right icon-accessory"></i>
         </a>
 
-        {{status}}
-
-        <!--<a class="item item-icon-left">-->
-          <!--<i class="icon ion-star"></i>-->
-          <!--积分:&nbsp;300-->
-        <!--</a>-->
-
-        <!--<a class="item item-icon-left item-icon-right" href="#/tab/favourite">-->
-          <!--<i class="icon ion-heart"></i>-->
-          <!--我的最爱-->
-          <!--<i class="icon ion-chevron-right icon-accessory"></i>-->
-        <!--</a>-->
-
-        <!--<a class="item item-icon-left">-->
-          <!--<i class="icon ion-person-stalker"></i>-->
-          <!--系统消息-->
-          <!--<span class="badge badge-assertive">0</span>-->
-        <!--</a>-->
 
 
       </div>
 
 
-
-      <!--<ul class="list">-->
-
-        <!---->
-
-        <!--<li class="item">-->
-          <!--用户名:cxspace-->
-        <!--</li>-->
-
-        <!--<li class="item">-->
-          <!--账号:JieLiu2017@aliyun.com-->
-        <!--</li>-->
-
-        <!--<li class="item">-->
-          <!--积分:8888-->
-        <!--</li>-->
-
-      <!--</ul>-->
     </ion-list>
   </ion-content>
 </ion-view>

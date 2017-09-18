@@ -5,8 +5,13 @@ angular.module('starter.controllers', [])
 
 
 /**
-  
-     获取所有的storys
+
+    美食故事页面
+
+    主要业务逻辑
+
+     - 获取所有的storys
+
 
 */
   .controller('RecommendCtrl', function($scope,$http,$ionicPopup,baseURL) {
@@ -27,7 +32,7 @@ angular.module('starter.controllers', [])
 
           });
 
-    $scope.doRefresh = function() {
+     $scope.doRefresh = function() {
 
      $http({
           method:'GET',
@@ -58,22 +63,28 @@ angular.module('starter.controllers', [])
               });
 
           });
-        
+
 
         }
 
-      
+
   })
 
 
 /**
-  
-     根据id获取制定的story
+
+     美食故事详细页面
+
+     主要业务逻辑：
+
+      - 根据id获取制定的story
+
+
 
 */
 
   .controller('RecommendDetailCtrl', function($scope,$http,$stateParams,$ionicPopup,$sce,baseURL) {
-     
+
 
 
      $http({
@@ -106,19 +117,45 @@ angular.module('starter.controllers', [])
           });
 
 
-
-
   })
 
-  .controller('RoundTableCtrl', function($scope,$rootScope,$http,baseURL,$ionicLoading,$ionicPopup,$timeout) {
 
-     $scope.baseURL = "http://121.42.184.102/DaDouMiImg/";
+  /*
+  *
+  *    圆桌页面
+  *
+  *    主要的业务逻辑
+  *
+  *     - 加载所有的美食分析信息
+  *
+  *     - 发布美食信息
+  *
+  *     - 检索信息
+  *
+  *
+  * */
+
+  .controller('RoundTableCtrl', function($scope,$rootScope,$http,baseURL,UploadImgURL,$ionicLoading,$ionicPopup,$timeout) {
+
+
+     $scope.search = {};
+
+     $scope.UploadImgURL = UploadImgURL;
+
      $ionicLoading.show({
         template: '<ion-spinner></ion-spinner> Loading...'
      });
 
+
+     /*
+
+            描述:http请求获取美食信息
+
+      */
+
+
      $http({
-             method:'GET',
+                method:'GET',
                 url:baseURL+'round_table'
            }).then(
 
@@ -151,6 +188,74 @@ angular.module('starter.controllers', [])
           });
 
 
+    /**
+     *
+     *   信息检索业务逻辑
+     *
+     */
+
+    $scope.doSearch = function () {
+
+      console.log('Do Search With KeyWord : '+ $scope.search.keyword);
+
+
+      //获取特定信息
+
+      $http(
+
+
+        {
+          method:"POST",
+          url:baseURL+"share_search",
+          data:$scope.search,
+          headers :{
+            'Content-Type' : 'application/json'
+          }
+
+        }
+
+      ).then(
+
+        function success(response){
+
+          console.log(response.data);
+
+          $scope.shares = response.data;
+
+        },
+
+        function error(response){
+
+          var confirmPopup = $ionicPopup.confirm({
+            title: '温馨提升',
+            template: '网路错误，请连接网络 ^] [^'
+          });
+
+          confirmPopup.then(function (res) {
+            if (res) {
+              console.log('Ok to delete');
+            } else {
+              console.log('Canceled delete');
+            }
+          });
+
+        }
+
+      );
+
+
+
+
+    };
+
+
+    /**
+     *
+     * 下拉刷新
+     *
+     */
+
+
       $scope.doRefresh = function() {
 
        $http({
@@ -161,7 +266,7 @@ angular.module('starter.controllers', [])
           function success(response){
 
                 $scope.shares = response.data;
-            
+
                 $scope.$broadcast('scroll.refreshComplete');
           },
 
@@ -182,13 +287,12 @@ angular.module('starter.controllers', [])
               });
 
 
-
                $timeout(function () {
                 $ionicLoading.hide();
                   }, 1000);
           });
 
-         };     
+         };
 
       $rootScope.doRefresh = function() {
 
@@ -200,7 +304,7 @@ angular.module('starter.controllers', [])
           function success(response){
 
                 $scope.shares = response.data;
-            
+
                 $scope.$broadcast('scroll.refreshComplete');
           },
 
@@ -212,28 +316,49 @@ angular.module('starter.controllers', [])
 
          };
 
-
   })
 
-  .controller('RoundTableDetailCtrl', function($scope,$http,$stateParams,$ionicPopup,$rootScope,baseURL) {
- 
-     $scope.baseURL = "http://121.42.184.102/DaDouMiImg/";
 
-     $scope.commentData = {};
-     $scope.share = {};
-     $scope.commentDatas = {};
+  /**
+   *
+   *    圆桌详细页面
+   *
+   *    主要业务逻辑
+   *
+   *    - 获取分享详细信息
+   *
+   *    - 获取评论数据
+   *
+   *    - 添加评论数据
+   *
+   */
+
+
+  .controller('RoundTableDetailCtrl', function($scope,$http,$stateParams,$ionicPopup,$rootScope,baseURL,UploadImgURL) {
+
+
+     $scope.UploadImgURL = UploadImgURL;
+
+     $scope.commentData = {};  //用户添加的评论信息
+     $scope.share = {};        //分享的详细信息
+     $scope.commentDatas = {};  //对应改分享详细的评论数据
 
 
      $http({
           method:'GET',
           url:baseURL+'shares/'+$stateParams.id
-     }).then(
+          }).then(
 
           function success(response){
 
                 console.log(response.data);
+
                 $scope.share = response.data;
+
+                //拿到发布评论的人的分享信息
                 $scope.commentData.share_id = $scope.share.id;
+
+                //获取评论信息
 
                 $http(
 
@@ -249,11 +374,11 @@ angular.module('starter.controllers', [])
                   }
 
                 ).then(
-           
+
                       function success(response){
 
                         console.log(response.data);
-                        
+
                         $scope.commentDatas = response.data;
 
                       },
@@ -277,9 +402,9 @@ angular.module('starter.controllers', [])
                       }
 
                 );
-              
 
-          
+
+
           },
 
           function error(response){
@@ -287,12 +412,19 @@ angular.module('starter.controllers', [])
           });
 
 
+     //添加评论信息
+
      $scope.doAddComment = function(){
-          
+
+          //添加到对应分享映射
           $scope.commentData.share_id = $scope.share.id;
+
+          //添加对应的用户的映射
           $scope.commentData.user_id = $rootScope.loginData.id;
+
           console.log($scope.commentData.content);
 
+          //添加请求
           $http(
 
             {
@@ -308,7 +440,7 @@ angular.module('starter.controllers', [])
 
             function success(response) {
 
-              
+
               $http(
 
                   {
@@ -322,10 +454,10 @@ angular.module('starter.controllers', [])
                   }
 
                 ).then(
-           
+
                       function success(response){
 
-                        
+
                         $scope.commentDatas = response.data;
 
                       },
@@ -335,10 +467,10 @@ angular.module('starter.controllers', [])
                       }
 
                 );
-              
+
               $scope.commentData.content = "";
 
-     
+
             },
 
             function error() {
@@ -351,12 +483,13 @@ angular.module('starter.controllers', [])
      }
 
 
+     //点赞业务逻辑
+
      $scope.inc_support = function(){
 
         console.log("inc_support()");
 
         $http(
-
 
                   {
                       method:"POST",
@@ -369,7 +502,7 @@ angular.module('starter.controllers', [])
                   }
 
                 ).then(
-           
+
                       function success(response){
 
                         $scope.share.support ++;
@@ -386,15 +519,25 @@ angular.module('starter.controllers', [])
 
   })
 
-  .controller('RoundTableAddCtrl', function($rootScope,$scope,$state,$http,baseURL,$ionicActionSheet,$cordovaCamera,$ionicPopup,$cordovaFileTransfer) {
+  /**
+   *
+   *   添加分享页面
+   *
+   *   主要业务逻辑
+   *
+   *   - 添加分享信息
+   *
+   */
+
+  .controller('RoundTableAddCtrl', function($rootScope,$scope,$state,$http,baseURL,UploadImgURL,UploadServerURL,$ionicActionSheet,$cordovaCamera,$ionicPopup,$cordovaFileTransfer) {
 
     $scope.shareData={};
-    $scope.imageSrc="http://121.42.184.102/DaDouMiImg/icon.png"; 
+
+    //默认上传图片显示的信息
+    $scope.imageSrc=UploadImgURL+"icon.png";
 
 
-
-
-          // 添加图片
+    // 添加图片
     $scope.addSharePhoto = function () {
       $ionicActionSheet.show({
         cancelOnStateChange: true,
@@ -425,7 +568,7 @@ angular.module('starter.controllers', [])
       });
     };
 
-//拍照
+   //拍照
     $scope.takePhoto = function () {
       var options = {
         quality: 100,
@@ -445,7 +588,7 @@ angular.module('starter.controllers', [])
           // Error
         });
     };
-//选择照片
+    //选择照片
     $scope.pickImage = function () {
       var options = {
         quality: 100,
@@ -473,7 +616,9 @@ angular.module('starter.controllers', [])
 
       var requestParams = "?callback=JSON_CALLBACK";
 
-      var server = encodeURI('http://121.42.184.102:3000/upload' + requestParams);
+      //对应文件上传的服务器
+
+      var server = encodeURI(UploadServerURL + requestParams);
       var fileURL = $scope.imageSrc;
       var options = {
         fileKey: "file",//相当于form表单项的name属性
@@ -481,7 +626,7 @@ angular.module('starter.controllers', [])
         mimeType: "image/jpeg"
       };
 
-      if ($scope.imageSrc != "http://121.42.184.102/DaDouMiImg/icon.png") 
+      if ($scope.imageSrc != UploadImgURL+"icon.png")
       {
               $cordovaFileTransfer.upload(server, fileURL, options)
                 .then(function (result) {
@@ -514,12 +659,12 @@ angular.module('starter.controllers', [])
 
                     function success(response) {
 
-                      $scope.imageSrc="http://121.42.184.102/DaDouMiImg/icon.png"; 
+                      $scope.imageSrc=UploadImgURL+"icon.png";
 
                       $state.go('tab.round_table', {}, {reload: true});
 
                       $rootScope.doRefresh();
-             
+
                     },
 
                     function error() {
@@ -528,7 +673,7 @@ angular.module('starter.controllers', [])
                   );
 
                 }, function (err) {
-    
+
 
                 }, function (progress) {
                   // constant progress updates
@@ -615,7 +760,7 @@ angular.module('starter.controllers', [])
 
           }
           else {
-           
+
             $rootScope.loginData = response.data;
             // console.log($rootScope.loginData);
             $rootScope.status = "";
@@ -797,7 +942,6 @@ angular.module('starter.controllers', [])
       );
 
 
-
     };
 
 
@@ -904,7 +1048,7 @@ angular.module('starter.controllers', [])
   })
 
 
-  .controller('UpdatePictureCtrl', function($scope,$state,$ionicActionSheet,$http,$rootScope,$cordovaCamera,$cordovaFileTransfer,baseURL) {
+  .controller('UpdatePictureCtrl', function($scope,$state,$ionicActionSheet,$http,$rootScope,$cordovaCamera,$cordovaFileTransfer,baseURL,UploadServerURL) {
 
     // 添加图片
     $scope.addPhoto = function () {
@@ -983,7 +1127,7 @@ angular.module('starter.controllers', [])
     $scope.uploadPhoto = function () {
       var requestParams = "?callback=JSON_CALLBACK";
 
-      var server = encodeURI('http://121.42.184.102:3000/upload' + requestParams);
+      var server = encodeURI(UploadServerURL + requestParams);
       var fileURL = $scope.imageSrc;
       var options = {
         fileKey: "file",//相当于form表单项的name属性
@@ -1043,7 +1187,9 @@ angular.module('starter.controllers', [])
     };
   })
 
-  .controller('AccountCtrl', function($rootScope,$scope,$state,baseURL) {
+  .controller('AccountCtrl', function($rootScope,$scope,$state,baseURL,UploadImgURL) {
+
+    $scope.UploadImgURL = UploadImgURL;
 
     $rootScope.status = "";
 

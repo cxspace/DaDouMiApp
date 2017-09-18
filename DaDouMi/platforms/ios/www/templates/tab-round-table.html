@@ -1,13 +1,25 @@
 <ion-view view-title="圆桌">
 
+
+
   <ion-nav-buttons side="secondary">
     <div class="buttons">
       <a class="button button-icon icon ion-android-add" href="#/tab/round_table_add" ng-show="loginData.id != null"></a>
     </div>
   </ion-nav-buttons>
 
-
   <ion-content class="padding">
+
+    <form ng-submit="doSearch()">
+
+      <div class="bar bar-header item-input-inset">
+        <label class="item-input-wrapper">
+          <i class="icon ion-ios-search placeholder-icon"></i>
+          <input type="search" ng-model="search.keyword" placeholder="输入关键字, 点击小键盘上的搜索">
+        </label>
+      </div>
+
+    </form>
 
     <ion-refresher pulling-text="下拉刷新" on-refresh="doRefresh()"></ion-refresher>
 
@@ -15,14 +27,14 @@
     <div class="list card" ng-repeat="share in shares">
 
       <div class="item item-avatar">
-        <img src="http://121.42.184.102/DaDouMiImg/{{share.user_imgsrc}}">
+        <img src="{{UploadImgURL+share.user_imgsrc}}">
         <h2>{{share.user_name}}</h2>
         <p>{{share.share_time}}</p>
       </div>
 
       <div class="item item-body">
         <a href="#/tab/round_table_detail/{{share.share_id}}">
-          <img class="full-image" src="http://121.42.184.102/DaDouMiImg/{{share.share_imgsrc}}">
+          <img class="full-image" src="{{UploadImgURL+share.share_imgsrc}}">
         </a>
 
         <p>
