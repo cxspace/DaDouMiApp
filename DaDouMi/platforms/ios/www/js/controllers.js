@@ -631,15 +631,14 @@ angular.module('starter.controllers', [])
               $cordovaFileTransfer.upload(server, fileURL, options)
                 .then(function (result) {
                   // Success!
-                  //alert("Code = " + result.responseCode + "Response = " + result.response+ "Sent = " + result.bytesSent);
+                  alert("Code = " + result.responseCode + "Response = " + result.response+ "Sent = " + result.bytesSent);
 
                   //转换为JSON对象
                   var dataObj=eval("("+result.response+")");
 
                   $scope.imgHttpUrl = dataObj.img;
 
-                  $scope.imageSrc = "file-"+dataObj.img+".jpg";
-
+                  $scope.imageSrc = dataObj.img;
 
                   $scope.shareData.user_id = $rootScope.loginData.id;
                   $scope.shareData.imgsrc = $scope.imageSrc;
@@ -1147,7 +1146,7 @@ angular.module('starter.controllers', [])
 
           // alert(dataObj.img);
 
-          $rootScope.loginData.imgsrc = "file-"+dataObj.img+".jpg";
+          $rootScope.loginData.imgsrc = dataObj.img;
 
           $http(
 

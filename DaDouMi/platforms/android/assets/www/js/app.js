@@ -138,7 +138,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
         }
       }
     })
-    
+
   //圆桌里面的信息详细
   .state('tab.round_table_detail', {
       url: '/round_table_detail/:id',
